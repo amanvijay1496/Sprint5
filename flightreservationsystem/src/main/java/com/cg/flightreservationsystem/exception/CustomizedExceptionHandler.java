@@ -14,13 +14,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestController
 public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
 
-//	@ExceptionHandler({ RuntimeException.class })
-//	public ResponseEntity<ErrorDetails> handelRunTimeException(RuntimeException ex, WebRequest request) {
-//		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-//		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-//
-//	}
-
 	@ExceptionHandler(FRSException.class)
 	public final ResponseEntity<ErrorDetails> handleException(FRSException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
@@ -28,13 +21,11 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
 
 	}
-	
+
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<ErrorDetails> handleAllExceptions(Exception ex, WebRequest request) {
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Invalid Data", request.getDescription(false));
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
 	}
-
-	
 
 }

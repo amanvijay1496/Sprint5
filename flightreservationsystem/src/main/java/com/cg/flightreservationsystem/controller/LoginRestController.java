@@ -2,8 +2,8 @@ package com.cg.flightreservationsystem.controller;
 
 import java.util.Date;
 
-import javax.validation.Valid;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,6 @@ import com.cg.flightreservationsystem.exception.FRSException;
 import com.cg.flightreservationsystem.service.UserAuthenticationService;
 
 @RestController
-@RequestMapping(value = "/login")
 public class LoginRestController {
 	@Autowired
 	private UserAuthenticationService userAuth;
@@ -23,22 +22,24 @@ public class LoginRestController {
 	public void setUserAuth(UserAuthenticationService userAuth) {
 		this.userAuth = userAuth;
 	}
+	
+	private static final Logger log = LoggerFactory.getLogger(LoginRestController.class);
 
-	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
 	public String checkUser(@RequestBody UserEntity user) throws FRSException {
-		System.out.println(user);
+		log.info("Store: Check user method started");
+		
 		userAuth.login(user);
-		// Here add login timestamp in login_details table
+		// Added Login Timestamp in Database
 		userAuth.addLoginTimestamp(user.getUsername(), new Date(), new Date());
-		return "Hello User, You Have Successfully Logged In";
+		String Role="";
+		if(user.getRoleid() == 1) {
+			Role = "Admin";
+		}
+		else Role="User";
+		log.info("Store: Check user method End");
+		return "Hello "+ Role+ ", You Have Successfully Logged In";
 	}
 
-	@RequestMapping(value = "/admin", method = RequestMethod.POST, consumes = "application/json")
-	public String checkAdmin(@Valid @RequestBody UserEntity user) throws FRSException {
-
-		userAuth.login(user);
-
-		return "Hello Admin, You Have Successfully Logged In";
-	}
 
 }

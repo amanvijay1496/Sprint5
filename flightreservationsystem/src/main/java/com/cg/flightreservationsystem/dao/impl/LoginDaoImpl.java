@@ -12,6 +12,7 @@ import com.cg.flightreservationsystem.dao.LoginDao;
 import com.cg.flightreservationsystem.entity.LoginEntity;
 import com.cg.flightreservationsystem.entity.UserEntity;
 import com.cg.flightreservationsystem.exception.FRSException;
+import com.cg.flightreservationsystem.utility.ExceptionMessagesUtils;
 
 @Repository
 @Transactional
@@ -25,11 +26,11 @@ public class LoginDaoImpl implements LoginDao {
 				"SELECT u FROM UserEntity u WHERE u.password=:password and u.roleid=:roleid and u.username=:username", UserEntity.class);
 		typedQuery.setParameter("password", user.getPassword());
 		typedQuery.setParameter("roleid", user.getRoleid());
-		typedQuery.setParameter("roleid", user.getUsername());
+		typedQuery.setParameter("username", user.getUsername());
 		try {
 			typedQuery.getSingleResult();
 		} catch (NoResultException e) {
-			throw new FRSException("Invalid data");
+			throw new FRSException(ExceptionMessagesUtils.MESSAGE3);
 		}
 		return true;
 
