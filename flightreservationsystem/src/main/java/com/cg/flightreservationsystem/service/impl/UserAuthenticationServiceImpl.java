@@ -1,6 +1,8 @@
 package com.cg.flightreservationsystem.service.impl;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +51,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 
 	}
 
-	public boolean addLoginTimestamp(String username, Date inTime, Date outTime) throws FRSException {
+	public boolean addLoginTimestamp(String username, LocalDate inTime, Date outTime) throws FRSException {
 		LoginEntity loginEntity = new LoginEntity();
 		loginEntity.setUsername(username);
 		loginEntity.setOutTime(outTime);
@@ -58,6 +60,17 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 			throw new FRSException("Some database error");
 		}
 		return true;
+	}
+
+	@Override
+	public boolean addLoginTimestamp(String username, Date date, Date outTime) throws FRSException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Object[]> viewLoginDetail(LocalDate date) {
+		return loginDao.viewLoginDetail(date);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.cg.flightreservationsystem.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ public class LoginEntity {
 	private int id;
 	private String username;
 	@Column(name = "intime")
-	private Date inTime;
+	private LocalDate inTime;
 	@Column(name = "outime")
 	private Date outTime;
 
@@ -29,7 +30,7 @@ public class LoginEntity {
 
 	}
 
-	public LoginEntity(int id, String username, Date inTime, Date outTime) {
+	public LoginEntity(int id, String username, LocalDate inTime, Date outTime) {
 
 		this.id = id;
 		this.username = username;
@@ -53,11 +54,11 @@ public class LoginEntity {
 		this.username = username;
 	}
 
-	public Date getInTime() {
+	public LocalDate getInTime() {
 		return inTime;
 	}
 
-	public void setInTime(Date inTime) {
+	public void setInTime(LocalDate inTime) {
 		this.inTime = inTime;
 	}
 
